@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Icon } from "@radix-ui/react-select";
+import { link } from "fs";
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [darkMode, setDarkMode] = useState(false);
@@ -43,8 +44,11 @@ const Index = () => {
   }, [darkMode]);
 
   const skills = [
+    { name: "Kotlin", level: 90, category: "Programming" },
     { name: "JavaScript", level: 90, category: "Programming" },
+    { name: "Dart", level: 60, category: "Programming" },
     { name: "TypeScript", level: 85, category: "Programming" },
+    { name: "Android Jetpack", level: 88, category: "Framework" },
     { name: "React.js", level: 88, category: "Framework" },
     { name: "Node.js", level: 82, category: "Backend" },
     { name: "Tailwind CSS", level: 90, category: "Styling" },
@@ -54,41 +58,67 @@ const Index = () => {
   const projects = [
     {
       id: 1,
-      title: "E-Commerce Dashboard",
+      title: "Dashboard Learning Management System",
       description:
-        "Modern dashboard untuk manajemen toko online dengan real-time analytics",
+        "This is a dashboard for a Learning Management System (LMS) that allows users to make a report of courses, students, and instructors. It includes features such as course creation, student enrollment, and instructor management.",
       image:
         "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-      tech: ["React", "TypeScript", "Tailwind CSS", "Chart.js"],
-      role: "Frontend Developer",
+      tech: ["Typescript", "sequilize", "chart", "react.js", "node.js"],
+      role: "Fullstack Developer",
       challenges:
-        "Implementasi real-time data visualization dan responsive design",
-      github: "#",
+        "Implementation of real-time data visualization and responsive design",
+      github:
+        "https://github.com/farischamakay/Dashboard-Employee-Tracking?tab=readme-ov-file",
       demo: "#",
     },
     {
       id: 2,
-      title: "Task Management App",
-      description: "Aplikasi manajemen tugas dengan fitur kolaborasi tim",
-      image:
-        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop",
-      tech: ["React", "Node.js", "MongoDB", "Socket.io"],
-      role: "Fullstack Developer",
-      challenges: "Real-time collaboration dan optimasi database queries",
-      github: "#",
+      title: "Skin cancer Detection App",
+      description:
+        "This is a skin cancer detection app that uses machine learning to analyze images of skin lesions.",
+      image: "../public/skin-cancer.png",
+      tech: ["Kotlin", "Python", "MLkit", "TensorFlow Lite"],
+      role: "Android Developer",
+      challenges: "Implementation on device machine learning model",
+      github: "https://github.com/farischamakay/Applied-ML-on-device-android",
       demo: "#",
     },
     {
       id: 3,
-      title: "Learning Management System",
-      description: "Platform pembelajaran online dengan video streaming",
-      image:
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop",
-      tech: ["Next.js", "Prisma", "PostgreSQL", "AWS S3"],
-      role: "Lead Developer",
+      title: "E-Commerce Mobile App",
+      description:
+        "This is E-commerce based on android application, build using Kotlin language with several key features including displaying a list of products, adding items to the cart and wishlist, performing checkout, and conducting payment transactions all within a single Android application. I created this project with a strong intent to enhance my skills and gain a deeper understanding of Android Architecture Components. This project reflects my dedication to learning and applying the latest technologies in mobile application development.",
+      image: "../public/ecommerce-logo.png",
+      tech: ["Kotlin", "Android Jetpack", "MVVM", "Injection", "Room"],
+      role: "Android Developer",
       challenges:
-        "Video streaming optimization dan payment gateway integration",
-      github: "#",
+        "Implementation real-time data visualization dan responsive design",
+      github: "https://github.com/farischamakay/Ecommerce.git",
+      demo: "#",
+    },
+    {
+      id: 4,
+      title: "Cookbook - Recipe App",
+      description: "Final project for academy",
+      image: "../public/cookbook-logo.png",
+      tech: ["Dart", "Python", "Flutter", "Flask", "Firebase"],
+      role: "Mobile Developer",
+      challenges:
+        "Create a model to get high predict the recipe based on ingredients using machine learning",
+      github:
+        "https://github.com/farischamakay/Final-project-recipe-recommendation",
+      demo: "#",
+    },
+    {
+      id: 5,
+      title: "SecuriCam - Security Camera System",
+      description: "Capstone project for Bangkit Academy 2022",
+      image: "../public/securicam-logo.png",
+      tech: ["Kotlin", "Machine Learning", "Firebase"],
+      role: "Android Developer",
+      challenges:
+        "Live detection of security camera footage using machine learning",
+      github: "https://github.com/khoerulih/SecuriCam.git",
       demo: "#",
     },
   ];
@@ -96,68 +126,124 @@ const Index = () => {
   const certificates = [
     {
       id: 1,
-      title: "React Developer Certificate",
-      issuer: "Meta (Facebook)",
+      title: "Memulai Pemrograman dengan Java",
+      issuer: "Dicoding Indonesia",
       date: "2024",
-      image:
-        "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop",
-      credentialId: "META-2024-001",
+      link: "https://www.dicoding.com/certificates/98XWLQN6JZM3",
+      image: "../public/dicoding-logo.png?fit=crop",
+      credentialId: "98XWLQN6JZM3",
     },
     {
       id: 2,
-      title: "JavaScript Algorithms and Data Structures",
-      issuer: "freeCodeCamp",
-      date: "2023",
-      image:
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
-      credentialId: "FCC-2023-JS",
+      title: "Belajar Penerapan Machine Learning untuk Android",
+      issuer: "Dicoding Indonesia",
+      date: "2024",
+      link: "https://www.dicoding.com/certificates/L4PQ16MEQXO1",
+      image: "../public/dicoding-logo.png?fit=crop",
+      credentialId: "L4PQ16MEQXO1",
     },
     {
       id: 3,
-      title: "AWS Cloud Practitioner",
-      issuer: "Amazon Web Services",
-      date: "2024",
-      image:
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop",
-      credentialId: "AWS-CP-2024",
+      title: "Memulai Pemrograman dengan Dart",
+      issuer: "Dicoding Indonesia",
+      date: "2023",
+      link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
+      image: "../public/dicoding-logo.png?fit=crop",
+      credentialId: "QLZ9Q8O2EZ5D",
+    },
+    {
+      id: 4,
+      title: "Memulai Pemrograman dengan Dart",
+      issuer: "Dicoding Indonesia",
+      date: "2023",
+      link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
+      image: "../public/dicoding-logo.png?fit=crop",
+      credentialId: "QLZ9Q8O2EZ5D",
+    },
+    {
+      id: 5,
+      title: "Associate Android Developer",
+      issuer: "Google Developers",
+      date: "2022",
+      link: "https://www.credential.net/16f08374-3fcc-49c2-8a82-1b38b81d9243#acc.uVZD9Nrw",
+      image: "../public/google-developer-logo.png",
+      credentialId: "1235",
     },
   ];
 
   const experiences = [
     {
-      company: "TechCorp Indonesia",
-      position: "Senior Frontend Developer",
-      period: "2023 - Present",
-      description:
-        "Memimpin tim frontend dalam pengembangan aplikasi e-commerce dengan 1M+ users",
-      achievements: [
-        "Meningkatkan page load speed 40%",
-        "Implementasi design system",
-        "Mentoring junior developer",
-      ],
-    },
-    {
-      company: "StartupXYZ",
+      company: "Project : Client Management System - Raisecall",
       position: "Fullstack Developer",
-      period: "2022 - 2023",
+      period: "Apr 2025 - Jun 2025",
       description:
-        "Mengembangkan platform SaaS dari zero to one dengan teknologi modern",
+        " Assigned  as  a  Fullstack  Developer  to  work  on  the  Raisecall  application  project  for  the  Client-Management.Collaborated with the development team to build and enhance key features of the application, ensuring they met businessrequirements and design specifications",
       achievements: [
-        "Membangun MVP dalam 3 bulan",
-        "Integrasi payment gateway",
-        "Setup CI/CD pipeline",
+        "Built responsive user interfaces using React JS. (Framework Next Js)",
+        "Developed and maintained backend APIs using NestJS.",
+        "Integrated frontend and backend systems to ensure seamless data flow.",
+        "Wrote clean, maintainable, and well-documented code.",
+        "Performed debugging and bug fixing based on QA and user feedback.",
       ],
     },
     {
-      company: "Digital Agency ABC",
-      position: "Frontend Developer",
-      period: "2021 - 2022",
+      company: "Project : MyTelkomsel - Indihome",
+      position: "Android Developer",
+      period: "Nov 2023 - Apr 2025",
       description:
-        "Mengembangkan website dan aplikasi web untuk berbagai klien",
+        "Assigned to the TDW team, I contributed as an Android Developer of the MyTelkomsel app, specifically focused onIndiHome-related features. I worked in an agile environment with cross-functional teams including UI/UX designers, solutionarchitects, QA, and backend developers to deliver high-quality, scalable, and maintainable Android app",
       achievements: [
-        "20+ project selesai",
-        "Responsive design expert",
-        "Client satisfaction 95%",
+        "Feature  Development  –  Implemented  new  features  based  on  sprint  planning  and  UI/UX  designs,  ensuring  smoothfunctionality and user experience.",
+        "Bug Fixing & Optimization – Investigated and resolved issues reported by the QA team, improving application stability andperformance.",
+        "Code Quality & Best Practices – Applied clean code principles, and best practices to ensure maintainability and scalability.",
+        "Collaboration  with  Solution  Architects  (SA)  –  Analyzed  technical  documentation  in  Confluence  to  align  with  systemarchitecture and business requirements.",
+        "Performance  Optimization  –  Enhanced  application  performance  by  reducing  memory  leaks,  optimizing  API  calls,  andimproving UI rendering efficiency.",
+      ],
+    },
+    {
+      company: "Bangkit Academy",
+      position: "Contributor Mentor & Advisor",
+      period: "Feb 2023 - Jan 2025",
+      description:
+        "Served as a dedicated Mentor for three consecutive cohorts at Bangkit Academy, a career readiness program supported by Google, GoTo, and Traveloka. Provided guidance, technical support, and motivation to cohorts of students throughout their learning journey. After completing the mentorship role, continued contributing to the program as an Advisor for one batch, supporting and supervising new mentors to ensure the quality and consistency of mentoring.",
+      achievements: [
+        "Provide a supportive learning environment that will lead to a high graduation rate among your students, which is 89% atminimum.",
+        "Mentored and guided capstone teams to successfully complete their projects on time while maintaining high standards of development.",
+        "Helped teams integrate machine learning models into their Android applications using TensorFlow Lite (TFLite) and ML Kit,ensuring efficient on-device inference.",
+        "Leveraged my expertise to help teams gain deeper insights and find innovative solutions to their technical challenges.",
+        "Assisted teams in choosing the most suitable technologies and tools tailored to their specific problem statements, ensuringscalability and efficiency.",
+        "Provided insights on agile development practices, sprint planning, and version control (Git) to help teams manage their projects effectively.",
+        "Collaborating with other mentors and contributors to share best practices and improve the overall mentoring process.",
+      ],
+    },
+    {
+      company: "PT Mostrans",
+      position: "Mobile Developer Intern",
+      period: "May 2023 - Aug 2023",
+      description:
+        "As a Mobile Developer Intern at PT Mostrans, I was responsible for developing and maintaining the company's mobile applications. I worked closely with the development team to implement new features, fix bugs, and optimize the performance of the applications. My role involved collaborating with designers and backend developers to ensure a seamless user experience and efficient data handling.",
+      achievements: [
+        "Develop new features and functionalities for Driver app based on project requirements.",
+        "Write clean, maintainable, and efficient code using clean architecture based on Kotlin.",
+        "Create GraphQL schema and Integrate the APIs to add additional functionality to the application.",
+        "Resolve bugs, errors, and performance issues within the Driver application. ",
+        "Work closely with the design team to implement intuitive and visually appealing user interfaces (UI) for Driver App.",
+        "Participate in code reviews to ensure code quality, maintainability, and adherence to coding guidelines.",
+      ],
+    },
+
+    {
+      company: "PT Supernova Flexible Packaging",
+      position: "Information Technology Intern",
+      period: "Mar 2022 - Aug 2022",
+      description:
+        "During my 6 months of internship, I participated as an ERP support intern with the following jobs:",
+      achievements: [
+        "Monitoring the work order section and do the analysis to solve work order unbalance if there is a request for assistance from the PPIC team.",
+        "Do some tasks to edit ERP report program with Crystal Report Program.",
+        "Provide support from the ERP side to the SAP team in the new program that will go live.",
+        "Create User Acceptance Test in the form of text or video. ",
+        "Make an ERP program archive into HelpNDoc.",
       ],
     },
   ];
@@ -273,31 +359,48 @@ const Index = () => {
                         </span>
                       </h1>
                       <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-medium">
-                        Fullstack Developer | React Specialist
+                        Android | Fullstack Developer
                       </p>
                       <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl">
-                        "Turning ideas into real-world digital experiences with
-                        modern technologies and creative solutions."
+                        "Hi, I’m Farischa — but you can call me Far! I’m an
+                        Android Developer with 2 years of experience crafting
+                        mobile apps using Kotlin And also having knowledge in
+                        web development using React and Typescript. 📱☕
+                        📍Currently living in Jakarta, Indonesia. I’m a coffee
+                        enthusiast who loves exploring new opportunities (and
+                        occasionally debugging life 😄)."
                       </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
-                        <Download className="mr-2" size={20} />
-                        Download CV
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="border-2 border-gray-300 dark:border-gray-600 px-8 py-3 rounded-xl text-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
+                      <a
+                        href="../public/Farischa_CV_Newest.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <Mail className="mr-2" size={20} />
-                        Contact Me
-                      </Button>
+                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+                          <Download className="mr-2" size={20} />
+                          Download CV
+                        </Button>
+                      </a>
+                      <a
+                        href="https://wa.me/6282192577546"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button
+                          variant="outline"
+                          className="border-2 border-gray-300 dark:border-gray-600 px-8 py-3 rounded-xl text-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
+                        >
+                          <Mail className="mr-2" size={20} />
+                          Contact Me
+                        </Button>
+                      </a>
                     </div>
 
                     <div className="flex space-x-6">
                       <a
-                        href="#"
+                        href="https://github.com/farischamakay"
                         className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                       >
                         <Github
@@ -306,7 +409,7 @@ const Index = () => {
                         />
                       </a>
                       <a
-                        href="#"
+                        href="https://www.linkedin.com/in/farischa-makay-507795191/"
                         className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                       >
                         <Linkedin
@@ -315,7 +418,7 @@ const Index = () => {
                         />
                       </a>
                       <a
-                        href="#"
+                        href="https://www.instagram.com/far_makay/"
                         className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                       >
                         <Instagram
@@ -403,8 +506,8 @@ const Index = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  Passionate developer with 3+ years of experience creating
-                  digital solutions that make a difference
+                  An android developer with a passion for creating user-friendly
+                  apps and also having knowledge in web development.
                 </p>
               </div>
 
@@ -416,17 +519,18 @@ const Index = () => {
                         My Story
                       </h2>
                       <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                        Saya memulai perjalanan sebagai developer sejak kuliah
-                        di Teknik Informatika. Passion saya terhadap teknologi
-                        dimulai dari rasa ingin tahu tentang bagaimana aplikasi
-                        dan website yang sering saya gunakan dibuat.
+                        My journey began when I stepped into university. I never
+                        imagined that coding—something that once felt so
+                        unfamiliar—would one day become a core part of my life.
+                        It hasn't always been easy, but I truly enjoy every step
+                        of the learning process. Today, I’ve graduated and now
+                        work as a Junior Consultant, working projects in Android
+                        and Web development. My goal is to continue learning and
+                        doing what I love every day. 😊
                       </p>
                       <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                        Setelah lulus, saya memutuskan untuk fokus pada
-                        pengembangan web modern dengan React dan Node.js. Saya
-                        percaya bahwa teknologi harus mempermudah hidup manusia,
-                        dan itulah yang menjadi motivasi saya dalam setiap
-                        project.
+                        I'm currently open for opportunities and collaborations,
+                        so don't hesitate to reach out!
                       </p>
                     </CardContent>
                   </Card>
@@ -441,6 +545,12 @@ const Index = () => {
                           <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
                           <span className="text-gray-600 dark:text-gray-300">
                             Growth mindset - Always learning
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                          <span className="text-gray-600 dark:text-gray-300">
+                            Problem solver - Finding solutions
                           </span>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -479,13 +589,13 @@ const Index = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-gray-900 dark:text-white">
-                              S1 Teknik Informatika
+                              Information Technology
                             </h3>
                             <p className="text-gray-600 dark:text-gray-300">
-                              Universitas Indonesia
+                              President University
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                              2018 - 2022 | GPA: 3.7/4.0
+                              2019 - 2023 | GPA: 3.66/4.00
                             </p>
                           </div>
                         </div>
@@ -496,10 +606,27 @@ const Index = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-gray-900 dark:text-white">
-                              Bootcamp Fullstack
+                              Android Development Bootcamp
                             </h3>
                             <p className="text-gray-600 dark:text-gray-300">
-                              Hacktiv8 Indonesia
+                              Phincon Academy
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              2023 | Intensive 3 months
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Code className="text-white" size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                              Mobile Development Bootcamp
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300">
+                              Bangkit Academy
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                               2022 | Intensive 6 months
@@ -552,7 +679,7 @@ const Index = () => {
                         </p>
                         <div className="space-y-2">
                           <h4 className="font-semibold text-gray-900 dark:text-white">
-                            Key Achievements:
+                            Contributions:
                           </h4>
                           <ul className="space-y-1">
                             {exp.achievements.map((achievement, idx) => (
@@ -581,19 +708,23 @@ const Index = () => {
                   <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold mb-4">Let's Connect!</h2>
                     <p className="text-blue-100 text-lg">
-                      Ready to discuss your next project?
+                      Thanks for visiting my portfolio! If you have any
+                      questions, opportunities, or just want to say hi, feel
+                      free to reach out.
                     </p>
                   </div>
                   <div className="grid md:grid-cols-3 gap-6 text-center">
                     <div className="flex flex-col items-center space-y-2">
                       <Mail className="w-8 h-8" />
                       <span className="font-medium">Email</span>
-                      <span className="text-blue-100">john.doe@email.com</span>
+                      <span className="text-blue-100">
+                        farischamakay09@gmail.com
+                      </span>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
                       <Phone className="w-8 h-8" />
                       <span className="font-medium">Phone</span>
-                      <span className="text-blue-100">+62 812-3456-7890</span>
+                      <span className="text-blue-100">+62 821-9257-7546</span>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
                       <MapPin className="w-8 h-8" />
@@ -792,111 +923,24 @@ const Index = () => {
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                           ID: {cert.credentialId}
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        <a
+                          href={cert.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          View Credential
-                          <ExternalLink className="ml-1" size={14} />
-                        </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          >
+                            View Credential
+                            <ExternalLink className="ml-1" size={14} />
+                          </Button>
+                        </a>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
-              </div>
-
-              {/* Achievement Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16">
-                <Card className="p-6 text-center border-0 bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="text-3xl font-bold mb-2">15+</div>
-                    <div className="text-blue-100">Certificates Earned</div>
-                  </CardContent>
-                </Card>
-                <Card className="p-6 text-center border-0 bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="text-3xl font-bold mb-2">3+</div>
-                    <div className="text-purple-100">Years Experience</div>
-                  </CardContent>
-                </Card>
-                <Card className="p-6 text-center border-0 bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="text-3xl font-bold mb-2">50+</div>
-                    <div className="text-green-100">Projects Completed</div>
-                  </CardContent>
-                </Card>
-                <Card className="p-6 text-center border-0 bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="text-3xl font-bold mb-2">100%</div>
-                    <div className="text-orange-100">Client Satisfaction</div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Contact Form */}
-              <div className="mt-20">
-                <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-xl">
-                  <CardContent className="p-0">
-                    <div className="text-center mb-8">
-                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                        Get In Touch
-                      </h2>
-                      <p className="text-lg text-gray-600 dark:text-gray-300">
-                        Interested in working together? Let's discuss your
-                        project!
-                      </p>
-                    </div>
-                    <form
-                      onSubmit={handleSubmit}
-                      className="max-w-2xl mx-auto space-y-6"
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Name
-                          </label>
-                          <Input
-                            placeholder="Your name"
-                            className="bg-white/50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Email
-                          </label>
-                          <Input
-                            type="email"
-                            placeholder="your.email@example.com"
-                            className="bg-white/50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Message
-                        </label>
-                        <Textarea
-                          placeholder="Tell me about your project..."
-                          rows={6}
-                          className="bg-white/50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 resize-none"
-                          required
-                        />
-                      </div>
-                      <div className="text-center">
-                        <Button
-                          type="submit"
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-                        >
-                          <Send className="mr-2" size={20} />
-                          Send Message
-                        </Button>
-                      </div>
-                    </form>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
@@ -912,11 +956,11 @@ const Index = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <Code className="text-white" size={20} />
                 </div>
-                <span className="font-bold text-xl">John Doe</span>
+                <span className="font-bold text-xl">Farischa Makay</span>
               </div>
               <p className="text-gray-400">
-                Fullstack Developer passionate about creating amazing digital
-                experiences.
+                Android | Fullstack Developer passionate about creating amazing
+                digital experiences.
               </p>
             </div>
             <div>
@@ -952,19 +996,19 @@ const Index = () => {
               <h3 className="font-semibold mb-4">Connect</h3>
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://github.com/farischamakay"
                   className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
                 >
                   <Github size={20} />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/farischa-makay-507795191/"
                   className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
                 >
                   <Linkedin size={20} />
                 </a>
                 <a
-                  href="#"
+                  href="https://wa.me/6282192577546"
                   className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
                 >
                   <Mail size={20} />
@@ -974,7 +1018,7 @@ const Index = () => {
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center">
             <p className="text-gray-400">
-              © 2024 John Doe. Made with ❤️ using React & Tailwind CSS
+              © 2025 Farischa Makay. Made with ❤️ using React & Tailwind CSS
             </p>
           </div>
         </div>
