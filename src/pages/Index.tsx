@@ -46,7 +46,7 @@ const Index = () => {
   const skills = [
     { name: "Kotlin", level: 90, category: "Programming" },
     { name: "JavaScript", level: 90, category: "Programming" },
-    { name: "Dart", level: 60, category: "Programming" },
+    { name: "Dart", level: 75, category: "Programming" },
     { name: "TypeScript", level: 85, category: "Programming" },
     { name: "Android Jetpack", level: 88, category: "Framework" },
     { name: "React.js", level: 88, category: "Framework" },
