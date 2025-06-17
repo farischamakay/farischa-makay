@@ -7,7 +7,6 @@ import {
   Instagram,
   MapPin,
   Phone,
-  Send,
   ExternalLink,
   Calendar,
   Award,
@@ -24,11 +23,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Icon } from "@radix-ui/react-select";
-import { link } from "fs";
+import profile from "@/assets/profile.jpeg";
+import cookbookLogo from "@/assets/cookbook-logo.png";
+import ecommerceLogo from "@/assets/ecommerce-logo.png";
+import skinCancerLogo from "@/assets/skin-cancer.png";
+import securicamLogo from "@/assets/securicam-logo.png";
+import dicodingLogo from "@/assets/dicoding-logo.png";
+import googleDeveloperLogo from "@/assets/google-developer-logo.png";
+import cvFarischa from "@/assets/Farischa_CV_Newest.pdf";
+
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [darkMode, setDarkMode] = useState(false);
@@ -76,7 +80,7 @@ const Index = () => {
       title: "Skin cancer Detection App",
       description:
         "This is a skin cancer detection app that uses machine learning to analyze images of skin lesions.",
-      image: "../public/skin-cancer.png",
+      image: skinCancerLogo,
       tech: ["Kotlin", "Python", "MLkit", "TensorFlow Lite"],
       role: "Android Developer",
       challenges: "Implementation on device machine learning model",
@@ -88,7 +92,7 @@ const Index = () => {
       title: "E-Commerce Mobile App",
       description:
         "This is E-commerce based on android application, build using Kotlin language with several key features including displaying a list of products, adding items to the cart and wishlist, performing checkout, and conducting payment transactions all within a single Android application. I created this project with a strong intent to enhance my skills and gain a deeper understanding of Android Architecture Components. This project reflects my dedication to learning and applying the latest technologies in mobile application development.",
-      image: "../public/ecommerce-logo.png",
+      image: ecommerceLogo,
       tech: ["Kotlin", "Android Jetpack", "MVVM", "Injection", "Room"],
       role: "Android Developer",
       challenges:
@@ -100,7 +104,7 @@ const Index = () => {
       id: 4,
       title: "Cookbook - Recipe App",
       description: "Final project for academy",
-      image: "../public/cookbook-logo.png",
+      image: cookbookLogo,
       tech: ["Dart", "Python", "Flutter", "Flask", "Firebase"],
       role: "Mobile Developer",
       challenges:
@@ -113,7 +117,7 @@ const Index = () => {
       id: 5,
       title: "SecuriCam - Security Camera System",
       description: "Capstone project for Bangkit Academy 2022",
-      image: "../public/securicam-logo.png",
+      image: securicamLogo,
       tech: ["Kotlin", "Machine Learning", "Firebase"],
       role: "Android Developer",
       challenges:
@@ -130,7 +134,7 @@ const Index = () => {
       issuer: "Dicoding Indonesia",
       date: "2024",
       link: "https://www.dicoding.com/certificates/98XWLQN6JZM3",
-      image: "../public/dicoding-logo.png?fit=crop",
+      image: dicodingLogo,
       credentialId: "98XWLQN6JZM3",
     },
     {
@@ -139,7 +143,7 @@ const Index = () => {
       issuer: "Dicoding Indonesia",
       date: "2024",
       link: "https://www.dicoding.com/certificates/L4PQ16MEQXO1",
-      image: "../public/dicoding-logo.png?fit=crop",
+      image: dicodingLogo,
       credentialId: "L4PQ16MEQXO1",
     },
     {
@@ -148,7 +152,7 @@ const Index = () => {
       issuer: "Dicoding Indonesia",
       date: "2023",
       link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
-      image: "../public/dicoding-logo.png?fit=crop",
+      image: dicodingLogo,
       credentialId: "QLZ9Q8O2EZ5D",
     },
     {
@@ -157,7 +161,7 @@ const Index = () => {
       issuer: "Dicoding Indonesia",
       date: "2023",
       link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
-      image: "../public/dicoding-logo.png?fit=crop",
+      image: dicodingLogo,
       credentialId: "QLZ9Q8O2EZ5D",
     },
     {
@@ -166,7 +170,7 @@ const Index = () => {
       issuer: "Google Developers",
       date: "2022",
       link: "https://www.credential.net/16f08374-3fcc-49c2-8a82-1b38b81d9243#acc.uVZD9Nrw",
-      image: "../public/google-developer-logo.png",
+      image: googleDeveloperLogo,
       credentialId: "1235",
     },
   ];
@@ -374,7 +378,7 @@ const Index = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4">
                       <a
-                        href="../public/Farischa_CV_Newest.pdf"
+                        href={cvFarischa}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -433,7 +437,7 @@ const Index = () => {
                     <div className="relative">
                       <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 p-1 shadow-2xl">
                         <img
-                          src="..\public\profile.jpeg"
+                          src={profile}
                           alt="Profile"
                           className="w-full h-full object-cover rounded-3xl"
                         />
