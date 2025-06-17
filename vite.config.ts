@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === "production" ? "/farischa-makay" : "/",
+  base: mode === "production" ? "/farischa-makay/" : "/",
   plugins: [react()],
   resolve: {
     alias: {
