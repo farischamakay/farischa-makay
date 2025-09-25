@@ -727,7 +727,7 @@ const cardVariants = {
               </div>
 
               {/* Contact Info */}
-              <Card className="p-8 border-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl">
+              <Card className="p-8 mt-10 border-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl">
                 <CardContent className="p-0">
                   <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold mb-4">Let's Connect!</h2>
