@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import {
   Download,
   Mail,
@@ -46,6 +47,26 @@ const Index = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+    }
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+      delay: 0.1
+    }
+  }
+};
 
   const skills = [
     { name: "Kotlin", level: 90, category: "Programming" },
@@ -644,66 +665,65 @@ const Index = () => {
               </div>
 
               {/* Experience Timeline */}
-              <div className="mb-20">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    Work Experience
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300">
-                    My professional journey
-                  </p>
-                </div>
-
-                <div className="space-y-8">
-                  {experiences.map((exp, index) => (
-                    <Card
-                      key={index}
-                      className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      <CardContent className="p-0">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                              {exp.position}
-                            </h3>
-                            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
-                              {exp.company}
-                            </p>
-                          </div>
-                          <Badge
-                            variant="outline"
-                            className="mt-2 md:mt-0 w-fit"
-                          >
-                            <Calendar className="mr-1" size={14} />
-                            {exp.period}
-                          </Badge>
-                        </div>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4">
-                          {exp.description}
+              <div className="space-y-8">
+              {experiences.map((exp, index) => (
+                <motion.div
+                  key={index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ 
+                    once: true, 
+                    margin: "-50px 0px -100px 0px",
+                    amount: 0.2 
+                  }}
+              variants={cardVariants}
+              custom={index}
+              >
+              <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
+                <CardContent className="p-0">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                          {exp.position}
+                        </h3>
+                        <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
+                          {exp.company}
                         </p>
-                        <div className="space-y-2">
-                          <h4 className="font-semibold text-gray-900 dark:text-white">
-                            Contributions:
-                          </h4>
-                          <ul className="space-y-1">
-                            {exp.achievements.map((achievement, idx) => (
-                              <li
-                                key={idx}
-                                className="flex items-center space-x-2 text-gray-600 dark:text-gray-300"
-                              >
-                                <ChevronRight
-                                  size={16}
-                                  className="text-blue-500"
-                                />
-                                <span>{achievement}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className="mt-2 md:mt-0 w-fit"
+                      >
+                        <Calendar className="mr-1" size={14} />
+                        {exp.period}
+                      </Badge>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      {exp.description}
+                    </p>
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Contributions:
+                      </h4>
+                      <ul className="space-y-1">
+                        {exp.achievements.map((achievement, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-center space-x-2 text-gray-600 dark:text-gray-300"
+                          >
+                            <ChevronRight
+                              size={16}
+                              className="text-blue-500"
+                            />
+                            <span>{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardContent>
+              </Card>
+              </motion.div>
+              ))}
               </div>
 
               {/* Contact Info */}
