@@ -389,8 +389,7 @@ const cardVariants = {
                       <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl">
                         "Hi, I’m Farischa — but you can call me Far! I’m an
                         Android Developer with 2 years of experience crafting
-                        mobile apps using Kotlin And also having knowledge in
-                        web development using React and Typescript. 📱☕
+                        mobile apps using Kotlin and Flutter. 📱☕
                         📍Currently living in Jakarta, Indonesia. I’m a coffee
                         enthusiast who loves exploring new opportunities (and
                         occasionally debugging life 😄)."
