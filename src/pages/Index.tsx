@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Download,
   Mail,
@@ -16,16 +16,23 @@ import {
   Briefcase,
   GraduationCap,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
   Moon,
   Sun,
   Menu,
   X,
+  Smartphone,
+  Layers,
+  Cpu,
+  Globe,
+  Database
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import profile from "@/assets/profile.jpeg";
+import profile from "@/assets/profile_new.jpg";
 import cookbookLogo from "@/assets/cookbook-logo.png";
 import ecommerceLogo from "@/assets/ecommerce-logo.png";
 import skinCancerLogo from "@/assets/skin-cancer.png";
@@ -39,7 +46,10 @@ const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { toast } = useToast();
+  const [activeExperience, setActiveExperience] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
+  // Auto-scroll for experience slider
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -48,106 +58,214 @@ const Index = () => {
     }
   }, [darkMode]);
 
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 50,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
-      delay: 0.1
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
     }
-  }
-};
+  };
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 50,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+      }
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+        delay: 0.1
+      }
+    }
+  };
 
   const skills = [
-    { name: "Kotlin", level: 90, category: "Programming" },
-    { name: "JavaScript", level: 90, category: "Programming" },
-    { name: "Dart", level: 75, category: "Programming" },
-    { name: "TypeScript", level: 85, category: "Programming" },
-    { name: "Android Jetpack", level: 88, category: "Framework" },
-    { name: "React.js", level: 88, category: "Framework" },
-    { name: "Node.js", level: 82, category: "Backend" },
-    { name: "Tailwind CSS", level: 90, category: "Styling" },
-    { name: "Git", level: 85, category: "Tools" },
+    { name: "Kotlin", category: "Language" },
+    { name: "Java", category: "Language" },
+    { name: "Dart", category: "Language" },
+    { name: "Flutter", category: "Framework" },
+    { name: "Android Jetpack", category: "Framework" },
+    { name: "Compose Multiplatform", category: "Framework" },
   ];
 
   const projects = [
     {
-      id: 1,
-      title: "Dashboard Learning Management System",
-      description:
-        "This is a dashboard for a Learning Management System (LMS) that allows users to make a report of courses, students, and instructors. It includes features such as course creation, student enrollment, and instructor management.",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-      tech: ["Typescript", "sequilize", "chart", "react.js", "node.js"],
-      role: "Fullstack Developer",
-      challenges:
-        "Implementation of real-time data visualization and responsive design",
-      github:
-        "https://github.com/farischamakay/Dashboard-Employee-Tracking?tab=readme-ov-file",
-      demo: "#",
-    },
-    {
       id: 2,
-      title: "Skin cancer Detection App",
+      title: "E-Commerce Mobile App",
       description:
-        "This is a skin cancer detection app that uses machine learning to analyze images of skin lesions.",
-      image: skinCancerLogo,
-      tech: ["Kotlin", "Python", "MLkit", "TensorFlow Lite"],
+        "A robust Android e-commerce application built with Kotlin. Features include product browsing, cart management, wishlist, and secure checkout.",
+      image: ecommerceLogo,
+      tech: ["Kotlin", "Android Jetpack", "Room", "Coroutines"],
       role: "Android Developer",
-      challenges: "Implementation on device machine learning model",
-      github: "https://github.com/farischamakay/Applied-ML-on-device-android",
+      challenges:
+        "Implementing complex state management and ensuring smooth performance.",
+      github: "https://github.com/farischamakay/Ecommerce.git",
       demo: "#",
     },
     {
       id: 3,
-      title: "E-Commerce Mobile App",
+      title: "Skin Cancer Detection App",
       description:
-        "This is E-commerce based on android application, build using Kotlin language with several key features including displaying a list of products, adding items to the cart and wishlist, performing checkout, and conducting payment transactions all within a single Android application. I created this project with a strong intent to enhance my skills and gain a deeper understanding of Android Architecture Components. This project reflects my dedication to learning and applying the latest technologies in mobile application development.",
-      image: ecommerceLogo,
-      tech: ["Kotlin", "Android Jetpack", "MVVM", "Injection", "Room"],
+        "An AI-powered Android app that uses on-device machine learning to analyze skin lesions and detect potential cancer risks.",
+      image: skinCancerLogo,
+      tech: ["Kotlin", "TensorFlow Lite", "CameraX"],
       role: "Android Developer",
-      challenges:
-        "Implementation real-time data visualization dan responsive design",
-      github: "https://github.com/farischamakay/Ecommerce.git",
+      challenges: "Optimizing ML model performance for real-time mobile inference.",
+      github: "https://github.com/farischamakay/Applied-ML-on-device-android",
       demo: "#",
     },
     {
       id: 4,
       title: "Cookbook - Recipe App",
-      description: "Final project for academy",
+      description: "A cross-platform recipe recommendation app built with Flutter. Uses a Python/Flask backend for ML suggestions.",
       image: cookbookLogo,
-      tech: ["Dart", "Python", "Flutter", "Flask", "Firebase"],
+      tech: ["Flutter", "Dart", "Python", "Flask"],
       role: "Mobile Developer",
       challenges:
-        "Create a model to get high predict the recipe based on ingredients using machine learning",
+        "Seamless integration between Flutter frontend and Python backend.",
       github:
         "https://github.com/farischamakay/Final-project-recipe-recommendation",
       demo: "#",
     },
     {
       id: 5,
-      title: "SecuriCam - Security Camera System",
-      description: "Capstone project for Bangkit Academy 2022",
+      title: "SecuriCam - Smart Security",
+      description: "IoT-integrated security camera system with mobile monitoring.",
       image: securicamLogo,
-      tech: ["Kotlin", "Machine Learning", "Firebase"],
+      tech: ["Kotlin", "Firebase", "WebRTC"],
       role: "Android Developer",
       challenges:
-        "Live detection of security camera footage using machine learning",
+        "Low-latency video streaming.",
       github: "https://github.com/khoerulih/SecuriCam.git",
       demo: "#",
     },
   ];
 
+  // ... (Keep certificates array as is or update if needed)
+
+  const experiences = [
+    {
+      company: "Bank Rakyat Indonesia (BRI)",
+      position: "Mobile Developer",
+      period: "Jun 2025 - Present",
+      description:
+        "Part of the Technology & Platform Engineer (TPE) Research team. Building internal libraries and standardizing mobile development.",
+      achievements: [
+        "Developing internal libraries using Flutter and Kotlin.",
+        "Researching mobile technologies to improve efficiency.",
+        "Optimizing mobile app performance.",
+      ],
+    },
+    {
+      company: "Project : Client Management System - Raisecall",
+      position: "Fullstack Developer",
+      period: "Apr 2025 - Jun 2025",
+      description:
+        "Assigned as a Fullstack Developer to work on the Raisecall application project for the Client-Management. Collaborated with the development team to build and enhance key features of the application, ensuring they met business requirements and design specifications.",
+      achievements: [
+        "Built responsive user interfaces using React JS. (Framework Next Js)",
+        "Developed and maintained backend APIs using NestJS.",
+        "Integrated frontend and backend systems to ensure seamless data flow.",
+        "Wrote clean, maintainable, and well-documented code.",
+        "Performed debugging and bug fixing based on QA and user feedback.",
+      ],
+    },
+    {
+      company: "Project : MyTelkomsel - Indihome",
+      position: "Android Developer",
+      period: "Nov 2023 - Apr 2025",
+      description:
+        "Assigned to the TDW team, I contributed as an Android Developer of the MyTelkomsel app, specifically focused on IndiHome-related features. I worked in an agile environment with cross-functional teams including UI/UX designers, solution architects, QA, and backend developers to deliver high-quality, scalable, and maintainable Android app.",
+      achievements: [
+        "Feature Development – Implemented new features based on sprint planning and UI/UX designs, ensuring smooth functionality and user experience.",
+        "Bug Fixing & Optimization – Investigated and resolved issues reported by the QA team, improving application stability and performance.",
+        "Code Quality & Best Practices – Applied clean code principles, and best practices to ensure maintainability and scalability.",
+        "Collaboration with Solution Architects (SA) – Analyzed technical documentation in Confluence to align with system architecture and business requirements.",
+        "Performance Optimization – Enhanced application performance by reducing memory leaks, optimizing API calls, and improving UI rendering efficiency.",
+      ],
+    },
+    {
+      company: "Bangkit Academy",
+      position: "Contributor Mentor & Advisor",
+      period: "Feb 2023 - Jan 2025",
+      description:
+        "Served as a dedicated Mentor for three consecutive cohorts at Bangkit Academy, a career readiness program supported by Google, GoTo, and Traveloka. Provided guidance, technical support, and motivation to cohorts of students throughout their learning journey. After completing the mentorship role, continued contributing to the program as an Advisor for one batch, supporting and supervising new mentors to ensure the quality and consistency of mentoring.",
+      achievements: [
+        "Provide a supportive learning environment that will lead to a high graduation rate among your students, which is 89% at minimum.",
+        "Mentored and guided capstone teams to successfully complete their projects on time while maintaining high standards of development.",
+        "Helped teams integrate machine learning models into their Android applications using TensorFlow Lite (TFLite) and ML Kit, ensuring efficient on-device inference.",
+        "Leveraged my expertise to help teams gain deeper insights and find innovative solutions to their technical challenges.",
+        "Assisted teams in choosing the most suitable technologies and tools tailored to their specific problem statements, ensuring scalability and efficiency.",
+        "Provided insights on agile development practices, sprint planning, and version control (Git) to help teams manage their projects effectively.",
+        "Collaborating with other mentors and contributors to share best practices and improve the overall mentoring process.",
+      ],
+    },
+    {
+      company: "PT Mostrans",
+      position: "Mobile Developer Intern",
+      period: "May 2023 - Aug 2023",
+      description:
+        "As a Mobile Developer Intern at PT Mostrans, I was responsible for developing and maintaining the company's mobile applications. I worked closely with the development team to implement new features, fix bugs, and optimize the performance of the applications. My role involved collaborating with designers and backend developers to ensure a seamless user experience and efficient data handling.",
+      achievements: [
+        "Develop new features and functionalities for Driver app based on project requirements.",
+        "Write clean, maintainable, and efficient code using clean architecture based on Kotlin.",
+        "Create GraphQL schema and Integrate the APIs to add additional functionality to the application.",
+        "Resolve bugs, errors, and performance issues within the Driver application.",
+        "Work closely with the design team to implement intuitive and visually appealing user interfaces (UI) for Driver App.",
+        "Participate in code reviews to ensure code quality, maintainability, and adherence to coding guidelines.",
+      ],
+    },
+    {
+      company: "PT Supernova Flexible Packaging",
+      position: "Information Technology Intern",
+      period: "Mar 2022 - Aug 2022",
+      description:
+        "During my 6 months of internship, I participated as an ERP support intern with the following jobs:",
+      achievements: [
+        "Monitoring the work order section and do the analysis to solve work order unbalance if there is a request for assistance from the PPIC team.",
+        "Do some tasks to edit ERP report program with Crystal Report Program.",
+        "Provide support from the ERP side to the SAP team in the new program that will go live.",
+        "Create User Acceptance Test in the form of text or video.",
+        "Make an ERP program archive into HelpNDoc.",
+      ],
+    },
+  ];
+
+  // Auto-scroll for experience slider
+  useEffect(() => {
+    if (activeTab === "about" && !isPaused) {
+      const interval = setInterval(() => {
+        setActiveExperience((prev) => (prev + 1) % experiences.length);
+      }, 5000); // 5 seconds interval
+      return () => clearInterval(interval);
+    }
+  }, [activeTab, experiences.length, isPaused]);
+
+  const handleNext = () => {
+    setActiveExperience((prev) => (prev + 1) % experiences.length);
+  };
+
+  const handlePrev = () => {
+    setActiveExperience((prev) => (prev - 1 + experiences.length) % experiences.length);
+  };
+
+  // Re-adding certificates buffer if it was accidentally removed during previous edits, or ensuring it's defined before usage.
   const certificates = [
     {
       id: 1,
@@ -196,83 +314,6 @@ const cardVariants = {
     },
   ];
 
-  const experiences = [
-    {
-      company: "Project : Client Management System - Raisecall",
-      position: "Fullstack Developer",
-      period: "Apr 2025 - Jun 2025",
-      description:
-        " Assigned  as  a  Fullstack  Developer  to  work  on  the  Raisecall  application  project  for  the  Client-Management.Collaborated with the development team to build and enhance key features of the application, ensuring they met businessrequirements and design specifications",
-      achievements: [
-        "Built responsive user interfaces using React JS. (Framework Next Js)",
-        "Developed and maintained backend APIs using NestJS.",
-        "Integrated frontend and backend systems to ensure seamless data flow.",
-        "Wrote clean, maintainable, and well-documented code.",
-        "Performed debugging and bug fixing based on QA and user feedback.",
-      ],
-    },
-    {
-      company: "Project : MyTelkomsel - Indihome",
-      position: "Android Developer",
-      period: "Nov 2023 - Apr 2025",
-      description:
-        "Assigned to the TDW team, I contributed as an Android Developer of the MyTelkomsel app, specifically focused onIndiHome-related features. I worked in an agile environment with cross-functional teams including UI/UX designers, solutionarchitects, QA, and backend developers to deliver high-quality, scalable, and maintainable Android app",
-      achievements: [
-        "Feature  Development  –  Implemented  new  features  based  on  sprint  planning  and  UI/UX  designs,  ensuring  smoothfunctionality and user experience.",
-        "Bug Fixing & Optimization – Investigated and resolved issues reported by the QA team, improving application stability andperformance.",
-        "Code Quality & Best Practices – Applied clean code principles, and best practices to ensure maintainability and scalability.",
-        "Collaboration  with  Solution  Architects  (SA)  –  Analyzed  technical  documentation  in  Confluence  to  align  with  systemarchitecture and business requirements.",
-        "Performance  Optimization  –  Enhanced  application  performance  by  reducing  memory  leaks,  optimizing  API  calls,  andimproving UI rendering efficiency.",
-      ],
-    },
-    {
-      company: "Bangkit Academy",
-      position: "Contributor Mentor & Advisor",
-      period: "Feb 2023 - Jan 2025",
-      description:
-        "Served as a dedicated Mentor for three consecutive cohorts at Bangkit Academy, a career readiness program supported by Google, GoTo, and Traveloka. Provided guidance, technical support, and motivation to cohorts of students throughout their learning journey. After completing the mentorship role, continued contributing to the program as an Advisor for one batch, supporting and supervising new mentors to ensure the quality and consistency of mentoring.",
-      achievements: [
-        "Provide a supportive learning environment that will lead to a high graduation rate among your students, which is 89% atminimum.",
-        "Mentored and guided capstone teams to successfully complete their projects on time while maintaining high standards of development.",
-        "Helped teams integrate machine learning models into their Android applications using TensorFlow Lite (TFLite) and ML Kit,ensuring efficient on-device inference.",
-        "Leveraged my expertise to help teams gain deeper insights and find innovative solutions to their technical challenges.",
-        "Assisted teams in choosing the most suitable technologies and tools tailored to their specific problem statements, ensuringscalability and efficiency.",
-        "Provided insights on agile development practices, sprint planning, and version control (Git) to help teams manage their projects effectively.",
-        "Collaborating with other mentors and contributors to share best practices and improve the overall mentoring process.",
-      ],
-    },
-    {
-      company: "PT Mostrans",
-      position: "Mobile Developer Intern",
-      period: "May 2023 - Aug 2023",
-      description:
-        "As a Mobile Developer Intern at PT Mostrans, I was responsible for developing and maintaining the company's mobile applications. I worked closely with the development team to implement new features, fix bugs, and optimize the performance of the applications. My role involved collaborating with designers and backend developers to ensure a seamless user experience and efficient data handling.",
-      achievements: [
-        "Develop new features and functionalities for Driver app based on project requirements.",
-        "Write clean, maintainable, and efficient code using clean architecture based on Kotlin.",
-        "Create GraphQL schema and Integrate the APIs to add additional functionality to the application.",
-        "Resolve bugs, errors, and performance issues within the Driver application. ",
-        "Work closely with the design team to implement intuitive and visually appealing user interfaces (UI) for Driver App.",
-        "Participate in code reviews to ensure code quality, maintainability, and adherence to coding guidelines.",
-      ],
-    },
-
-    {
-      company: "PT Supernova Flexible Packaging",
-      position: "Information Technology Intern",
-      period: "Mar 2022 - Aug 2022",
-      description:
-        "During my 6 months of internship, I participated as an ERP support intern with the following jobs:",
-      achievements: [
-        "Monitoring the work order section and do the analysis to solve work order unbalance if there is a request for assistance from the PPIC team.",
-        "Do some tasks to edit ERP report program with Crystal Report Program.",
-        "Provide support from the ERP side to the SAP team in the new program that will go live.",
-        "Create User Acceptance Test in the form of text or video. ",
-        "Make an ERP program archive into HelpNDoc.",
-      ],
-    },
-  ];
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
@@ -288,18 +329,17 @@ const cardVariants = {
   }: {
     id: string;
     label: string;
-    icon: unknown;
+    icon: React.ElementType;
   }) => (
     <button
       onClick={() => {
         setActiveTab(id);
         setIsMenuOpen(false);
       }}
-      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-        activeTab === id
-          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
-          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-      }`}
+      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${activeTab === id
+        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        }`}
     >
       <Icon size={18} />
       <span>{label}</span>
@@ -307,40 +347,40 @@ const cardVariants = {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 transition-all duration-500">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 font-sans">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Code className="text-white" size={20} />
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center">
+                <Code className="text-white dark:text-slate-900" size={20} />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Portfolio
+              <span className="font-bold text-xl text-slate-900 dark:text-white tracking-tight">
+                Farischa Makay
               </span>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-1">
               <NavItem id="home" label="Home" icon={User} />
               <NavItem id="about" label="About" icon={User} />
               <NavItem id="portfolio" label="Portfolio" icon={Briefcase} />
               <NavItem id="certificates" label="Certificates" icon={Award} />
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="p-2.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
-                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
 
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300"
+                className="md:hidden p-2.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300"
               >
                 {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
@@ -362,47 +402,40 @@ const cardVariants = {
       </nav>
 
       {/* Main Content */}
-      <main className="pt-16">
+      <main className="pt-24 pb-12">
         {/* Home Section */}
         {activeTab === "home" && (
-          <div className="min-h-screen">
+          <div className="min-h-[calc(100vh-6rem)] flex flex-col justify-center">
             {/* Hero Section */}
-            <section className="py-20 px-4 sm:px-6 lg:px-8">
+            <section className="px-4 sm:px-6 lg:px-8 mb-20">
               <div className="max-w-7xl mx-auto">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <div className="space-y-8 animate-fade-in">
-                    <div className="space-y-4">
-                      <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full">
-                        <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                  <div className="space-y-8 order-2 lg:order-1 animate-fade-in">
+                    <div className="space-y-6">
+                      <div className="inline-flex items-center px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full">
+                        <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                           Welcome to my portfolio
                         </span>
                       </div>
-                      <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
-                        Farischa{" "}
-                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                          Makay
-                        </span>
+                      <h1 className="text-5xl lg:text-7xl font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
+                        Mobile <br />
+                        <span className="text-blue-600 dark:text-blue-500">Developer</span>
                       </h1>
-                      <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-medium">
-                        Android | Fullstack Developer
+                      <p className="text-xl text-slate-600 dark:text-slate-300 font-medium font-sans">
+                        Specializing in mobile applications.
                       </p>
-                      <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl">
-                        "Hi, I’m Farischa — but you can call me Far! I’m an
-                        Android Developer with 2 years of experience crafting
-                        mobile apps using Kotlin and Flutter. 📱☕
-                        📍Currently living in Jakarta, Indonesia. I’m a coffee
-                        enthusiast who loves exploring new opportunities (and
-                        occasionally debugging life 😄)."
+                      <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl leading-relaxed">
+                        "Hi, I’m Farischa — but you can call me Far! I’m an Android Developer with 3+ years of experience crafting mobile apps using Kotlin and Flutter. 📱☕ 📍Currently living in Jakarta, Indonesia. I’m a coffee enthusiast who loves exploring new opportunities (and occasionally debugging life 😄)."
                       </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-wrap gap-4">
                       <a
                         href={cvFarischa}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Button className="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 text-white px-8 py-6 rounded-xl text-lg font-semibold shadow-sm hover:shadow-md transition-all duration-300">
                           <Download className="mr-2" size={20} />
                           Download CV
                         </Button>
@@ -414,7 +447,7 @@ const cardVariants = {
                       >
                         <Button
                           variant="outline"
-                          className="border-2 border-gray-300 dark:border-gray-600 px-8 py-3 rounded-xl text-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
+                          className="border-2 border-slate-200 dark:border-slate-700 px-8 py-6 rounded-xl text-lg font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300"
                         >
                           <Mail className="mr-2" size={20} />
                           Contact Me
@@ -422,96 +455,72 @@ const cardVariants = {
                       </a>
                     </div>
 
-                    <div className="flex space-x-6">
-                      <a
-                        href="https://github.com/farischamakay"
-                        className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
-                      >
-                        <Github
-                          className="text-gray-600 dark:text-gray-300"
-                          size={24}
-                        />
-                      </a>
-                      <a
-                        href="https://www.linkedin.com/in/farischa-makay-507795191/"
-                        className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
-                      >
-                        <Linkedin
-                          className="text-gray-600 dark:text-gray-300"
-                          size={24}
-                        />
-                      </a>
-                      <a
-                        href="https://www.instagram.com/far_makay/"
-                        className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
-                      >
-                        <Instagram
-                          className="text-gray-600 dark:text-gray-300"
-                          size={24}
-                        />
-                      </a>
+                    <div className="flex space-x-4 pt-4">
+                      {[
+                        { icon: Github, href: "https://github.com/farischamakay" },
+                        { icon: Linkedin, href: "https://www.linkedin.com/in/farischa-makay-507795191/" },
+                        { icon: Instagram, href: "https://www.instagram.com/far_makay/" }
+                      ].map((social, index) => (
+                        <motion.a
+                          key={index}
+                          href={social.href}
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="p-3 bg-white dark:bg-gray-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+                        >
+                          <social.icon size={22} />
+                        </motion.a>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="flex justify-center lg:justify-end animate-fade-in">
-                    <div className="relative">
-                      <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 p-1 shadow-2xl">
+                  <div className="flex justify-center lg:justify-end order-1 lg:order-2">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8 }}
+                      className="relative"
+                    >
+                      <div className="relative z-10 rounded-2xl p-2 bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700 rotate-2 hover:rotate-0 transition-all duration-500 ease-in-out">
                         <img
                           src={profile}
                           alt="Profile"
-                          className="w-full h-full object-cover rounded-3xl"
+                          className="w-[300px] lg:w-[400px] h-auto rounded-xl shadow-sm"
                         />
                       </div>
-                      <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg animate-bounce">
-                        <Code className="text-white" size={28} />
-                      </div>
-                    </div>
+                      {/* Simple decorative elements */}
+                      <div className="absolute top-10 -right-10 w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full blur-xl -z-0"></div>
+                      <div className="absolute -bottom-5 -left-5 w-24 h-24 bg-purple-100 dark:bg-purple-900/30 rounded-full blur-xl -z-0"></div>
+                    </motion.div>
                   </div>
                 </div>
               </div>
             </section>
 
             {/* Skills Preview */}
-            <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-gray-800/50">
+            <section className="px-4 sm:px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                  <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    Skills & Expertise
-                  </h2>
-                  <p className="text-xl text-gray-600 dark:text-gray-300">
-                    Technologies I work with
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {skills.map((skill, index) => (
-                    <Card
-                      key={skill.name}
-                      className="p-6 hover:shadow-lg transition-all duration-300 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
-                    >
-                      <CardContent className="p-0">
-                        <div className="flex justify-between items-center mb-3">
-                          <h3 className="font-semibold text-gray-900 dark:text-white">
-                            {skill.name}
-                          </h3>
-                          <Badge variant="secondary" className="text-xs">
-                            {skill.category}
-                          </Badge>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-1000 ease-out"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                        <div className="text-right mt-2">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
-                            {skill.level}%
-                          </span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                <div className="mb-10">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Technologies</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    {skills.map((skill, index) => (
+                      <motion.div
+                        key={skill.name}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.05 }}
+                        className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col items-center text-center justify-center gap-2 group"
+                      >
+                        <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5">
+                          {skill.category}
+                        </Badge>
+                        <span className="font-semibold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {skill.name}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
@@ -520,140 +529,100 @@ const cardVariants = {
 
         {/* About Section */}
         {activeTab === "about" && (
-          <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                  About{" "}
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Me
-                  </span>
-                </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  An android developer with a passion for creating user-friendly
-                  apps and also having knowledge in web development.
-                </p>
-              </div>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+            <div className="mb-12 text-center lg:text-left">
+              <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">About Me</h1>
+              <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                Passionate about crafting intuitive and performant mobile experiences.
+              </p>
+            </div>
 
-              <div className="grid lg:grid-cols-2 gap-12 mb-20">
+            <div className="grid gap-8">
+              <div className="grid lg:grid-cols-2 gap-8 mb-12">
                 <div className="space-y-6">
-                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
                     <CardContent className="p-0">
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
                         My Story
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                         My journey began when I stepped into university. I never
                         imagined that coding—something that once felt so
                         unfamiliar—would one day become a core part of my life.
                         It hasn't always been easy, but I truly enjoy every step
                         of the learning process. Today, I’ve graduated and now
-                        work as a Junior Consultant, working projects in Android
-                        and Web development. My goal is to continue learning and
+                        work as an Android Developer. My goal is to continue learning and
                         doing what I love every day. 😊
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                         I'm currently open for opportunities and collaborations,
                         so don't hesitate to reach out!
                       </p>
                     </CardContent>
                   </Card>
 
-                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
                     <CardContent className="p-0">
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
                         Values & Mindset
                       </h2>
                       <div className="space-y-3">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Growth mindset - Always learning
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Problem solver - Finding solutions
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Collaborative approach
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            User-centric solutions
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Clean code advocate
-                          </span>
-                        </div>
+                        {[
+                          "Growth mindset - Always learning",
+                          "Problem solver - Finding solutions",
+                          "Collaborative approach",
+                          "User-centric solutions",
+                          "Clean code advocate"
+                        ].map((value, i) => (
+                          <div key={i} className="flex items-center space-x-3">
+                            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                            <span className="text-slate-600 dark:text-slate-300">
+                              {value}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </CardContent>
                   </Card>
                 </div>
 
                 <div>
-                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+                  <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300 h-full">
                     <CardContent className="p-0">
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
                         Education & Background
                       </h2>
-                      <div className="space-y-6">
+                      <div className="space-y-8">
                         <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
                             <GraduationCap className="text-white" size={24} />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">
                               Information Technology
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-300">
+                            <p className="text-blue-600 dark:text-blue-400 font-medium">
                               President University
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                               2019 - 2023 | GPA: 3.66/4.00
                             </p>
                           </div>
                         </div>
 
                         <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
                             <Code className="text-white" size={24} />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-900 dark:text-white">
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">
                               Android Development Bootcamp
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-300">
+                            <p className="text-blue-600 dark:text-blue-400 font-medium">
                               Phincon Academy
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                               2023 | Intensive 3 months
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Code className="text-white" size={24} />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-gray-900 dark:text-white">
-                              Mobile Development Bootcamp
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-300">
-                              Bangkit Academy
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              2022 | Intensive 6 months
                             </p>
                           </div>
                         </div>
@@ -663,391 +632,201 @@ const cardVariants = {
                 </div>
               </div>
 
-              {/* Experience Timeline */}
-              <div className="space-y-8">
-              {experiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ 
-                    once: true, 
-                    margin: "-50px 0px -100px 0px",
-                    amount: 0.2 
-                  }}
-              variants={cardVariants}
-              custom={index}
-              >
-              <Card className="p-8 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-0">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                          {exp.position}
-                        </h3>
-                        <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
-                          {exp.company}
-                        </p>
-                      </div>
-                      <Badge
-                        variant="outline"
-                        className="mt-2 md:mt-0 w-fit"
-                      >
-                        <Calendar className="mr-1" size={14} />
-                        {exp.period}
-                      </Badge>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      {exp.description}
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        Contributions:
-                      </h4>
-                      <ul className="space-y-1">
-                        {exp.achievements.map((achievement, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-center space-x-2 text-gray-600 dark:text-gray-300"
-                          >
-                            <ChevronRight
-                              size={16}
-                              className="text-blue-500"
-                            />
-                            <span>{achievement}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </CardContent>
-              </Card>
-              </motion.div>
-              ))}
-              </div>
 
-              {/* Contact Info */}
-              <Card className="p-8 mt-10 border-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl">
-                <CardContent className="p-0">
-                  <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold mb-4">Let's Connect!</h2>
-                    <p className="text-blue-100 text-lg">
-                      Thanks for visiting my portfolio! If you have any
-                      questions, opportunities, or just want to say hi, feel
-                      free to reach out.
-                    </p>
+              <section>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Experience</h2>
+                <div
+                  className="relative min-h-[400px] md:min-h-[300px] flex items-center bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 border border-slate-100 dark:border-slate-700 shadow-sm transition-all duration-300"
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
+                >
+                  {/* Progress Indicators & Controls */}
+                  <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-3 z-10 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-full backdrop-blur-sm">
+                    <button
+                      onClick={handlePrev}
+                      className="p-1 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      aria-label="Previous experience"
+                    >
+                      <ChevronUp size={16} />
+                    </button>
+                    <div className="flex flex-col gap-1.5">
+                      {experiences.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActiveExperience(idx)}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeExperience
+                            ? "bg-blue-600 h-4"
+                            : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400"
+                            }`}
+                          aria-label={`Go to experience ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                    <button
+                      onClick={handleNext}
+                      className="p-1 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      aria-label="Next experience"
+                    >
+                      <ChevronDown size={16} />
+                    </button>
                   </div>
-                  <div className="grid md:grid-cols-3 gap-6 text-center">
-                    <div className="flex flex-col items-center space-y-2">
-                      <Mail className="w-8 h-8" />
-                      <span className="font-medium">Email</span>
-                      <span className="text-blue-100">
-                        farischamakay09@gmail.com
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-2">
-                      <Phone className="w-8 h-8" />
-                      <span className="font-medium">Phone</span>
-                      <span className="text-blue-100">+62 821-9257-7546</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-2">
-                      <MapPin className="w-8 h-8" />
-                      <span className="font-medium">Location</span>
-                      <span className="text-blue-100">Jakarta, Indonesia</span>
-                    </div>
+
+                  <div className="w-full pr-12 md:pr-16">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeExperience}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="py-2"
+                      >
+                        <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                          {experiences[activeExperience].position}
+                        </h3>
+                        <div className="text-blue-600 dark:text-blue-400 font-medium text-base md:text-lg mb-1">
+                          {experiences[activeExperience].company}
+                        </div>
+                        <p className="text-xs md:text-sm text-slate-500 mb-4 font-medium flex items-center gap-2">
+                          <Calendar size={14} />
+                          {experiences[activeExperience].period}
+                        </p>
+                        <p className="text-slate-600 dark:text-slate-300 mb-6 text-sm md:text-base leading-relaxed">
+                          {experiences[activeExperience].description}
+                        </p>
+                        <div className="space-y-2">
+                          {experiences[activeExperience].achievements.map((ach, i) => (
+                            <div key={i} className="flex gap-3">
+                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0"></div>
+                              <p className="text-slate-600 dark:text-slate-400 text-sm">{ach}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </section>
             </div>
           </div>
         )}
 
         {/* Portfolio Section */}
         {activeTab === "portfolio" && (
-          <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                  My{" "}
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Portfolio
-                  </span>
-                </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  A collection of projects that showcase my skills and
-                  experience in web development
-                </p>
-              </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+            <div className="mb-12">
+              <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Featured Projects</h1>
+              <p className="text-lg text-slate-600 dark:text-slate-400">Selected work showcasing mobile expertise.</p>
+            </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                {projects.map((project) => (
-                  <Card
-                    key={project.id}
-                    className="group overflow-hidden border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-                  >
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <a
-                          href={project.github}
-                          className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors"
-                        >
-                          <Github
-                            size={16}
-                            className="text-gray-700 dark:text-gray-300"
-                          />
-                        </a>
-                        <a
-                          href={project.demo}
-                          className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors"
-                        >
-                          <ExternalLink
-                            size={16}
-                            className="text-gray-700 dark:text-gray-300"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project) => (
+                <Card key={project.id} className="group overflow-hidden border-0 bg-white dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full ring-1 ring-slate-200 dark:ring-slate-700">
+                  <div className="h-48 overflow-hidden relative bg-gray-100 dark:bg-gray-900">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                  </div>
+                  <CardContent className="p-6 flex-1 flex flex-col">
+                    <div className="mb-auto">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+                      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
                         {project.description}
                       </p>
+                    </div>
 
-                      <div className="mb-4">
-                        <Badge variant="outline" className="mb-2">
-                          {project.role}
-                        </Badge>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.map((tech) => (
-                          <Badge
-                            key={tech}
-                            variant="secondary"
-                            className="text-xs"
-                          >
-                            {tech}
-                          </Badge>
+                    <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-700 mt-4">
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map(t => (
+                          <Badge key={t} variant="outline" className="text-xs font-normal border-slate-200 text-slate-600 dark:text-slate-300">{t}</Badge>
                         ))}
                       </div>
-
-                      <div className="space-y-3">
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
-                            Challenge & Solution:
-                          </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
-                            {project.challenges}
-                          </p>
-                        </div>
+                      <div className="flex gap-3 justify-end">
+                        {project.github !== "#" && (
+                          <a href={project.github} target="_blank" className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                            <Github size={20} />
+                          </a>
+                        )}
+                        {project.demo !== "#" && (
+                          <a href={project.demo} target="_blank" className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                            <ExternalLink size={20} />
+                          </a>
+                        )}
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {/* Skills Section */}
-              <div className="mt-20">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    Technical Skills
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300">
-                    Technologies and tools I use
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {skills.map((skill) => (
-                    <Card
-                      key={skill.name}
-                      className="p-6 hover:shadow-lg transition-all duration-300 border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
-                    >
-                      <CardContent className="p-0">
-                        <div className="flex justify-between items-center mb-3">
-                          <h3 className="font-semibold text-gray-900 dark:text-white">
-                            {skill.name}
-                          </h3>
-                          <Badge variant="secondary" className="text-xs">
-                            {skill.category}
-                          </Badge>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                          <div
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000 ease-out"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                        <div className="text-right mt-2">
-                          <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                            {skill.level}%
-                          </span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         )}
 
         {/* Certificates Section */}
         {activeTab === "certificates" && (
-          <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Certificates
-                  </span>
-                </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  Professional certifications and achievements that validate my
-                  expertise
-                </p>
-              </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+            <div className="mb-12">
+              <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Certifications</h1>
+              <p className="text-lg text-slate-600 dark:text-slate-400">Professional achievements and continuous learning.</p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {certificates.map((cert) => (
-                  <Card
-                    key={cert.id}
-                    className="group overflow-hidden border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-                  >
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={cert.image}
-                        alt={cert.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <Badge className="bg-white/90 text-gray-900 hover:bg-white">
-                          <Award className="mr-1" size={12} />
-                          {cert.date}
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {cert.title}
-                      </h3>
-                      <p className="text-lg text-blue-600 dark:text-blue-400 font-medium mb-3">
-                        {cert.issuer}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          ID: {cert.credentialId}
-                        </div>
-                        <a
-                          href={cert.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          >
-                            View Credential
-                            <ExternalLink className="ml-1" size={14} />
-                          </Button>
-                        </a>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {certificates.map((cert) => (
+                <div key={cert.id} className="flex gap-4 p-5 bg-white dark:bg-gray-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-12 h-12 flex-shrink-0 bg-slate-50 dark:bg-slate-700 rounded-lg p-2 flex items-center justify-center">
+                    <img src={cert.image} alt="Logo" className="w-full h-full object-contain opacity-80" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 dark:text-white leading-tight mb-1">{cert.title}</h4>
+                    <p className="text-sm text-slate-500 mb-2">{cert.issuer} • {cert.date}</p>
+                    <a href={cert.link} target="_blank" className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1">
+                      View Credential <ExternalLink size={10} />
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Code className="text-white" size={20} />
-                </div>
-                <span className="font-bold text-xl">Farischa Makay</span>
-              </div>
-              <p className="text-gray-400">
-                Android | Fullstack Developer passionate about creating amazing
-                digital experiences.
+      {/* Modern Footer */}
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="md:col-span-2">
+              <span className="font-bold text-xl text-slate-900 dark:text-white tracking-tight mb-4 block">
+                Farischa Makay
+              </span>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm">
+                Mobile developer passionate about building amazing digital experiences.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Quick Links</h3>
-              <div className="space-y-2">
-                <button
-                  onClick={() => setActiveTab("home")}
-                  className="block text-gray-400 hover:text-white transition-colors"
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => setActiveTab("about")}
-                  className="block text-gray-400 hover:text-white transition-colors"
-                >
-                  About
-                </button>
-                <button
-                  onClick={() => setActiveTab("portfolio")}
-                  className="block text-gray-400 hover:text-white transition-colors"
-                >
-                  Portfolio
-                </button>
-                <button
-                  onClick={() => setActiveTab("certificates")}
-                  className="block text-gray-400 hover:text-white transition-colors"
-                >
-                  Certificates
-                </button>
-              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-4">Links</h4>
+              <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
+                <li><button onClick={() => setActiveTab("home")} className="hover:text-blue-600 transition-colors">Home</button></li>
+                <li><button onClick={() => setActiveTab("portfolio")} className="hover:text-blue-600 transition-colors">Portfolio</button></li>
+              </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Connect</h3>
-              <div className="flex space-x-4">
-                <a
-                  href="https://github.com/farischamakay"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
-                >
-                  <Github size={20} />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/farischa-makay-507795191/"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
-                >
-                  <Linkedin size={20} />
-                </a>
-                <a
-                  href="https://wa.me/6282192577546"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
-                >
-                  <Mail size={20} />
-                </a>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-4">Connect</h4>
+              <div className="flex gap-4 justify-center md:justify-start">
+                <a href="https://github.com/farischamakay" className="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"><Github size={20} /></a>
+                <a href="https://linkedin.com/in/farischa-makay-507795191" className="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"><Linkedin size={20} /></a>
+                <a href="mailto:farischamakay09@gmail.com" className="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"><Mail size={20} /></a>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400">
-              © 2025 Farischa Makay. Made with ❤️ using React & Tailwind CSS
-            </p>
+          <div className="pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-slate-400 text-sm">
+            © 2025 Farischa Makay. Crafted with precision.
           </div>
         </div>
       </footer>
     </div>
   );
 };
-
 export default Index;
