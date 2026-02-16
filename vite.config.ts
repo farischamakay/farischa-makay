@@ -5,7 +5,6 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/farischa-makay/", // Sesuai dengan nama repository GitHub kamu
   plugins: [react()],
   resolve: {
     alias: {
