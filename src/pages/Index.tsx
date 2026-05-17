@@ -710,7 +710,7 @@ const Index = () => {
         {activeTab === "portfolio" && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
             <div className="mb-12">
-              <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Featured Projects</h1>
+              <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Farischa Makay Portfolio</h1>
               <p className="text-lg text-slate-600 dark:text-slate-400">Selected work showcasing mobile expertise.</p>
             </div>
 
