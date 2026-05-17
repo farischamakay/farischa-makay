@@ -35,7 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 import profile from "@/assets/profile_new.jpg";
 import cookbookLogo from "@/assets/cookbook-logo.png";
 import ecommerceLogo from "@/assets/ecommerce-logo.png";
-import skinCancerLogo from "@/assets/skin-cancer.png";
+import obatkuLogo from "@/assets/Obatku.png";
 import securicamLogo from "@/assets/securicam-logo.png";
 import dicodingLogo from "@/assets/dicoding-logo.png";
 import googleDeveloperLogo from "@/assets/google-developer-logo.png";
@@ -106,32 +106,30 @@ const Index = () => {
 
   const projects = [
     {
+      id: 1,
+      title: "OBATKU",
+      description:
+        "A smart medicine reminder mobile application designed to help users manage their medication schedules more effectively and never miss a dose.",
+      image: obatkuLogo,
+      tech: ["Kotlin Multiplatform", "Android", "iOS", "Supabase"],
+      role: "Mobile Developer",
+      challenges: "Building a multiplatform app for Android and iOS while handling platform-specific behaviors like notifications and background reminders.",
+      link: "https://www.obatkuapp.my.id/",
+    },
+    {
       id: 2,
       title: "E-Commerce Mobile App",
       description:
         "A robust Android e-commerce application built with Kotlin. Features include product browsing, cart management, wishlist, and secure checkout.",
       image: ecommerceLogo,
-      tech: ["Kotlin", "Android Jetpack", "Room", "Coroutines"],
+      tech: ["Kotlin", "Android Jetpack", "Room", "Coroutines", "Unit Test", "Jacoco"],
       role: "Android Developer",
       challenges:
         "Implementing complex state management and ensuring smooth performance.",
-      github: "https://github.com/farischamakay/Ecommerce.git",
-      demo: "#",
+      link: "https://github.com/farischamakay/Ecommerce.git",
     },
     {
       id: 3,
-      title: "Skin Cancer Detection App",
-      description:
-        "An AI-powered Android app that uses on-device machine learning to analyze skin lesions and detect potential cancer risks.",
-      image: skinCancerLogo,
-      tech: ["Kotlin", "TensorFlow Lite", "CameraX"],
-      role: "Android Developer",
-      challenges: "Optimizing ML model performance for real-time mobile inference.",
-      github: "https://github.com/farischamakay/Applied-ML-on-device-android",
-      demo: "#",
-    },
-    {
-      id: 4,
       title: "Cookbook - Recipe App",
       description: "A cross-platform recipe recommendation app built with Flutter. Uses a Python/Flask backend for ML suggestions.",
       image: cookbookLogo,
@@ -139,21 +137,18 @@ const Index = () => {
       role: "Mobile Developer",
       challenges:
         "Seamless integration between Flutter frontend and Python backend.",
-      github:
-        "https://github.com/farischamakay/Final-project-recipe-recommendation",
-      demo: "#",
+      link: "https://github.com/farischamakay/Final-project-recipe-recommendation",
     },
     {
-      id: 5,
+      id: 4,
       title: "SecuriCam - Smart Security",
-      description: "IoT-integrated security camera system with mobile monitoring.",
+      description: "IoT-integrated security camera system utilizing deep learning for object detection and real-time mobile monitoring.",
       image: securicamLogo,
-      tech: ["Kotlin", "Firebase", "WebRTC"],
+      tech: ["Kotlin", "Firebase", "API integration", "WebRTC"],
       role: "Android Developer",
       challenges:
-        "Low-latency video streaming.",
-      github: "https://github.com/khoerulih/SecuriCam.git",
-      demo: "#",
+        "Low-latency video streaming and efficient on-device inference.",
+      link: "https://github.com/khoerulih/SecuriCam.git",
     },
   ];
 
@@ -719,47 +714,54 @@ const Index = () => {
               <p className="text-lg text-slate-600 dark:text-slate-400">Selected work showcasing mobile expertise.</p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <Card key={project.id} className="group overflow-hidden border-0 bg-white dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full ring-1 ring-slate-200 dark:ring-slate-700">
-                  <div className="h-48 overflow-hidden relative bg-gray-100 dark:bg-gray-900">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              {projects.map((project, index) => (
+                <motion.a
+                  key={project.id}
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.15, duration: 0.5 }}
+                  className="group relative block overflow-hidden rounded-[2.5rem] bg-white dark:bg-gray-800 shadow-sm hover:shadow-2xl transition-all duration-500 ring-1 ring-slate-200 dark:ring-slate-700"
+                >
+                  <div className="aspect-[16/10] overflow-hidden relative">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-in-out"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                    
+                    <div className="absolute top-6 right-6 p-3 bg-white/10 backdrop-blur-xl rounded-2xl text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 border border-white/20">
+                      <ExternalLink size={24} />
+                    </div>
                   </div>
-                  <CardContent className="p-6 flex-1 flex flex-col">
-                    <div className="mb-auto">
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
-                        {project.description}
-                      </p>
-                    </div>
 
-                    <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-700 mt-4">
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map(t => (
-                          <Badge key={t} variant="outline" className="text-xs font-normal border-slate-200 text-slate-600 dark:text-slate-300">{t}</Badge>
-                        ))}
-                      </div>
-                      <div className="flex gap-3 justify-end">
-                        {project.github !== "#" && (
-                          <a href={project.github} target="_blank" className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <Github size={20} />
-                          </a>
-                        )}
-                        {project.demo !== "#" && (
-                          <a href={project.demo} target="_blank" className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <ExternalLink size={20} />
-                          </a>
-                        )}
-                      </div>
+                  <div className="p-8 lg:p-10">
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.tech.map((t) => (
+                        <Badge key={t} variant="secondary" className="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 text-[11px] px-3 py-1 font-medium border-none rounded-full">
+                          {t}
+                        </Badge>
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base mb-8 line-clamp-2">
+                      {project.description}
+                    </p>
+
+                    <div className="flex items-center text-blue-600 dark:text-blue-400 font-bold text-sm uppercase tracking-wider group-hover:gap-2 transition-all duration-300">
+                      Explore Project
+                      <ChevronRight size={18} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                    </div>
+                  </div>
+                </motion.a>
               ))}
             </div>
           </div>
