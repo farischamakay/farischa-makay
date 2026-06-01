@@ -264,6 +264,24 @@ const Index = () => {
   const certificates = [
     {
       id: 1,
+      title: "AI Praktis untuk Produktivitas",
+      issuer: "Dicoding Indonesia",
+      date: "2026",
+      link: "https://www.dicoding.com/certificates/07Z67M3NJPQR",
+      image: dicodingLogo,
+      credentialId: "07Z67M3NJPQR",
+    },
+    {
+      id: 2,
+      title: "Belajar Penggunaan Generative AI",
+      issuer: "Dicoding Indonesia",
+      date: "2026",
+      link: "https://www.dicoding.com/certificates/NVP7N650VZR0",
+      image: dicodingLogo,
+      credentialId: "NVP7N650VZR0",
+    },
+    {
+      id: 3,
       title: "Memulai Pemrograman dengan Java",
       issuer: "Dicoding Indonesia",
       date: "2024",
@@ -272,7 +290,7 @@ const Index = () => {
       credentialId: "98XWLQN6JZM3",
     },
     {
-      id: 2,
+      id: 4,
       title: "Belajar Penerapan Machine Learning untuk Android",
       issuer: "Dicoding Indonesia",
       date: "2024",
@@ -281,25 +299,16 @@ const Index = () => {
       credentialId: "L4PQ16MEQXO1",
     },
     {
-      id: 3,
-      title: "Memulai Pemrograman dengan Dart",
-      issuer: "Dicoding Indonesia",
-      date: "2023",
-      link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
-      image: dicodingLogo,
-      credentialId: "QLZ9Q8O2EZ5D",
-    },
-    {
-      id: 4,
-      title: "Memulai Pemrograman dengan Dart",
-      issuer: "Dicoding Indonesia",
-      date: "2023",
-      link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
-      image: dicodingLogo,
-      credentialId: "QLZ9Q8O2EZ5D",
-    },
-    {
       id: 5,
+      title: "Memulai Pemrograman dengan Dart",
+      issuer: "Dicoding Indonesia",
+      date: "2023",
+      link: "https://www.dicoding.com/certificates/QLZ9Q8O2EZ5D",
+      image: dicodingLogo,
+      credentialId: "QLZ9Q8O2EZ5D",
+    },
+    {
+      id: 6,
       title: "Associate Android Developer",
       issuer: "Google Developers",
       date: "2022",
@@ -733,7 +742,7 @@ const Index = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-in-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                    
+
                     <div className="absolute top-6 right-6 p-3 bg-white/10 backdrop-blur-xl rounded-2xl text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 border border-white/20">
                       <ExternalLink size={24} />
                     </div>
@@ -747,11 +756,11 @@ const Index = () => {
                         </Badge>
                       ))}
                     </div>
-                    
+
                     <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                       {project.title}
                     </h3>
-                    
+
                     <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base mb-8 line-clamp-2">
                       {project.description}
                     </p>
